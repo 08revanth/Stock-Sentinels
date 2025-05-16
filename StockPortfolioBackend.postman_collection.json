@@ -1,0 +1,225 @@
+{
+    "info": {
+        "_postman_id": "a1111111-b222-4c33-d444-e55555555555",
+        "name": "Stock Portfolio Backend APIs",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Register User",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\": \"testuser\",\n   \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/register",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "register"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Login User",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/login",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "login"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Get Profile (Protected)",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/profile",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "profile"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Update Profile (Protected)",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\": \"updateduser\",\n    \"email\": \"updated@example.com\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/profile/update",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "profile",
+                        "update"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Change Password (Protected)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"currentPassword\": \"password123\",\n    \"newPassword\": \"newpassword123\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/change-password",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "change-password"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Admin Dashboard (Admin Only)",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:5000/api/auth/admin/dashboard",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "auth",
+                        "admin",
+                        "dashboard"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <your_token_here>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:5000/api/admin/users",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "admin", "users"]
+              }
+            }
+          },
+          {
+            "name": "Get All Portfolios",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <your_token_here>",
+                  "type": "text"
+                }
+              ],
+              "url": {
+                "raw": "http://localhost:5000/api/admin/portfolios",
+                "protocol": "http",
+                "host": ["localhost"],
+                "port": "5000",
+                "path": ["api", "admin", "portfolios"]
+              }
+            }
+        }
+    ]
+}
