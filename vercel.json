@@ -5,39 +5,35 @@
       "src": "stock-portfolio-frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build" // Or "dist" if using Vite, adjust to your frontend build output directory
+        "buildCommand": "cd stock-portfolio-frontend && npm install && npm run build", // Build command from monorepo root
+        "outputDirectory": "stock-portfolio-frontend/build" // Path to output dir FROM monorepo root
       }
     },
     {
-      "src": "stock-portfolio-backend/app.js", // Or your main backend server file, e.g., server.js, index.js, api/index.js
-      "use": "@vercel/node"
+      "src": "stock-portfolio-backend/app.js", // Replace 'app.js' if your main backend file is different
+      "use": "@vercel/node",
+      "config": {
+        "buildCommand": "cd stock-portfolio-backend && npm install" // Install backend dependencies
+      }
     }
   ],
   "rewrites": [
-    // 1. API routes: Rewrite /api/* requests to your backend serverless function
+    // 1. API routes
+    // Direct /api/* requests to your backend function
     {
       "source": "/api/(.*)",
-      "destination": "/stock-portfolio-backend/app.js" // Must match the 'src' in your backend build config
+      "destination": "/stock-portfolio-backend/app.js" // Path to your main backend file
     },
-    // 2. Frontend static assets: Serve directly if they exist
-    //    This pattern tries to serve static files first.
-    //    Vercel usually handles this well for @vercel/static-build output.
-    // {
-    //   "source": "/static/(.*)",
-    //   "destination": "/stock-portfolio-frontend/build/static/$1" // Example, adjust path
-    // },
-    // {
-    //   "source": "/favicon.ico",
-    //   "destination": "/stock-portfolio-frontend/build/favicon.ico"
-    // },
-    // ... other specific static file rewrites if needed ...
-
-    // 3. Frontend client-side routes (React Router catch-all)
-    //    This rule comes LAST for frontend routes.
-    //    It directs any other unhandled request to your frontend's index.html.
+    // 2. Frontend (React Router) catch-all
+    // This comes AFTER API routes.
+    // It directs any other unhandled request to your frontend's index.html.
     {
       "source": "/(.*)",
-      "destination": "/stock-portfolio-frontend/index.html" // Assuming this will resolve to the built index.html
+      "destination": "/stock-portfolio-frontend/index.html"
     }
-  ]
+  ],
+  "installCommand": "echo 'Monorepo install handled by individual builds or a root package.json script'"
+  // "installCommand": "npm install --prefix stock-portfolio-frontend && npm install --prefix stock-portfolio-backend"
+  // If you don't have a root package.json managing both, you can use the commented line above,
+  // OR ensure individual buildCommands handle their installs.
 }
