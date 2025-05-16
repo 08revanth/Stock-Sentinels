@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "stock-portfolio-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build" // Or "dist" if using Vite, adjust to your frontend build output directory
+      }
+    },
+    {
+      "src": "stock-portfolio-backend/app.js", // Or your main backend server file, e.g., server.js, index.js, api/index.js
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    // 1. API routes: Rewrite /api/* requests to your backend serverless function
+    {
+      "source": "/api/(.*)",
+      "destination": "/stock-portfolio-backend/app.js" // Must match the 'src' in your backend build config
+    },
+    // 2. Frontend static assets: Serve directly if they exist
+    //    This pattern tries to serve static files first.
+    //    Vercel usually handles this well for @vercel/static-build output.
+    // {
+    //   "source": "/static/(.*)",
+    //   "destination": "/stock-portfolio-frontend/build/static/$1" // Example, adjust path
+    // },
+    // {
+    //   "source": "/favicon.ico",
+    //   "destination": "/stock-portfolio-frontend/build/favicon.ico"
+    // },
+    // ... other specific static file rewrites if needed ...
+
+    // 3. Frontend client-side routes (React Router catch-all)
+    //    This rule comes LAST for frontend routes.
+    //    It directs any other unhandled request to your frontend's index.html.
+    {
+      "source": "/(.*)",
+      "destination": "/stock-portfolio-frontend/index.html" // Assuming this will resolve to the built index.html
+    }
+  ]
+}
